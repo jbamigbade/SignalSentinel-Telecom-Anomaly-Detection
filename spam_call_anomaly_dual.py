@@ -14,6 +14,7 @@ import logging
 import getpass
 from datetime import datetime, timezone
 import argparse
+import plotly.express as px
 
 # === CLI Argument Parsing for logtime sync with .bat ===
 parser = argparse.ArgumentParser()
@@ -60,6 +61,11 @@ def plot_and_save(df, x_col, y_col, title, plot_path):
     plt.title(title)
     plt.savefig(plot_path)
     plt.close()
+
+def generate_dashboard(df, output_path):
+    fig = px.scatter(df[df['Anomaly'] == 1], x='CallDuration', y='Hour',
+                     color='AnomalyScore', title='Top 50 Suspicious Calls')
+    fig.write_html(output_path)
 
 # === 1. Caller-Level Aggregation ===
 def caller_level_anomaly(df):
@@ -116,9 +122,12 @@ def call_level_anomaly(df, output_dir):
         top_50 = df_sorted[df_sorted['Anomaly'] == 1].head(50)
         top_50_path = os.path.join(output_dir, "top_50_suspicious_calls.csv")
         top_50_plot = os.path.join(output_dir, "top_50_plot.png")
+        top_50_dashboard = os.path.join("docs", "index.html")
 
         top_50.to_csv(top_50_path, index=False)
         plot_and_save(top_50, "CallDuration", "Hour", "Top 50 Suspicious Calls", top_50_plot)
+        os.makedirs("docs", exist_ok=True)
+        generate_dashboard(top_50, top_50_dashboard)
 
         return df_sorted
     except Exception as e:
@@ -182,4 +191,3 @@ if __name__ == "__main__":
     input_path = "spam_calls_1000.csv"
     output_dir = "output"
     run_dual_anomaly(input_path, output_dir)
-
