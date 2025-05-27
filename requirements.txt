@@ -4,6 +4,4 @@ scikit-learn
 matplotlib
 seaborn
 python-dotenv
-smtplib
-email
-plotly  
+plotly
