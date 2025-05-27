@@ -1,6 +1,8 @@
 # SignalSentinel – Telecom Anomaly Detection (GxP-Compliant)  
 ![Run SignalSentinel](https://github.com/jbamigbade/SignalSentinel-Telecom-Anomaly-Detection/actions/workflows/run-check.yml/badge.svg)
 
+🔗 [SignalSentinel Dashboard](https://jbamigbade.github.io/SignalSentinel-Telecom-Anomaly-Detection/)
+
 > A GxP-compliant anomaly detection system that identifies suspicious telecom call patterns using machine learning and automated reporting.
 
 ---
